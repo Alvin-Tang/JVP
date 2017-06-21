@@ -1,0 +1,44 @@
+body {
+	background-repeat: no-repeat;
+	background-size: cover;
+	height:100%;
+	text-align: center;
+	background-image:
+		url(../../img/bg_img.jpg);
+}
+
+.login {
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	margin: -150px 0 0 -175px;
+	width: 350px;
+	height: 230px;
+	border: 2px solid #888;
+	background-color: #fff;
+	border-radius: 15px;
+}
+
+.login_btn{
+	width: 80px;
+}
+
+.rememberMe{
+	font-size: 10px;
+}
+
+.footer {
+	height:50px;     
+    position:absolute;     
+    width:100%;     
+    clear:both;     
+    bottom:0;     
+    left:0;     
+    color:#fff;
+}
+
+.msgTips{
+	font-size: 10px;
+	color: red;
+	margin-top:5px;
+}

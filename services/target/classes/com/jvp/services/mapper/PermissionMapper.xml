@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jvp.services.mapper.PermissionMapper">
+	<resultMap id="BaseResultMap" type="com.jvp.services.model.Permission">
+		<id column="ID" jdbcType="INTEGER" property="id" />
+		<result column="NAME" jdbcType="VARCHAR" property="name" />
+		<result column="PARENT_ID" jdbcType="INTEGER" property="parentId" />
+		<result column="CODE" jdbcType="VARCHAR" property="code" />
+		<result column="URL" jdbcType="VARCHAR" property="url" />
+		<result column="TYPE" jdbcType="INTEGER" property="type" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		ID, NAME, PARENT_ID, CODE, URL, TYPE
+	</sql>
+	<select id="selectByPrimaryKey" parameterType="java.lang.Integer"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from JVP_PERMISSION
+		where ID = #{id,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from JVP_PERMISSION
+		where ID = #{id,jdbcType=INTEGER}
+	</delete>
+	<insert id="insert" parameterType="com.jvp.services.model.Permission">
+		insert into JVP_PERMISSION (ID, NAME, PARENT_ID,
+		CODE, URL, TYPE)
+		values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR},
+		#{parentId,jdbcType=INTEGER},
+		#{code,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER})
+	</insert>
+	<insert id="insertSelective" parameterType="com.jvp.services.model.Permission">
+		insert into JVP_PERMISSION
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				ID,
+			</if>
+			<if test="name != null">
+				NAME,
+			</if>
+			<if test="parentId != null">
+				PARENT_ID,
+			</if>
+			<if test="code != null">
+				CODE,
+			</if>
+			<if test="url != null">
+				URL,
+			</if>
+			<if test="type != null">
+				TYPE,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="name != null">
+				#{name,jdbcType=VARCHAR},
+			</if>
+			<if test="parentId != null">
+				#{parentId,jdbcType=INTEGER},
+			</if>
+			<if test="code != null">
+				#{code,jdbcType=VARCHAR},
+			</if>
+			<if test="url != null">
+				#{url,jdbcType=VARCHAR},
+			</if>
+			<if test="type != null">
+				#{type,jdbcType=INTEGER},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.jvp.services.model.Permission">
+		update JVP_PERMISSION
+		<set>
+			<if test="name != null">
+				NAME = #{name,jdbcType=VARCHAR},
+			</if>
+			<if test="parentId != null">
+				PARENT_ID = #{parentId,jdbcType=INTEGER},
+			</if>
+			<if test="code != null">
+				CODE = #{code,jdbcType=VARCHAR},
+			</if>
+			<if test="url != null">
+				URL = #{url,jdbcType=VARCHAR},
+			</if>
+			<if test="type != null">
+				TYPE = #{type,jdbcType=INTEGER},
+			</if>
+		</set>
+		where ID = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.jvp.services.model.Permission">
+		update JVP_PERMISSION
+		set NAME = #{name,jdbcType=VARCHAR},
+		PARENT_ID = #{parentId,jdbcType=INTEGER},
+		CODE = #{code,jdbcType=VARCHAR},
+		URL = #{url,jdbcType=VARCHAR},
+		TYPE = #{type,jdbcType=INTEGER}
+		where ID = #{id,jdbcType=INTEGER}
+	</update>
+
+	<select id="selectPermissionListByRid" parameterType="java.lang.Integer"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from JVP_PERMISSION TA inner join (select PID from
+		JVP_ROLE_PERMISSION where RID=#{rid}) TB
+		where TA.ID=TB.PID
+	</select>
+</mapper>

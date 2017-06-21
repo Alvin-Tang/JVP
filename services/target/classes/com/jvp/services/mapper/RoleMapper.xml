@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.jvp.services.mapper.RoleMapper">
+	<resultMap id="BaseResultMap" type="com.jvp.services.model.Role">
+		<id column="ID" jdbcType="INTEGER" property="id" />
+		<result column="NAME" jdbcType="VARCHAR" property="name" />
+		<result column="DESCRIPTION" jdbcType="VARCHAR" property="description" />
+		<result column="CODE" jdbcType="VARCHAR" property="code" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		ID, NAME, DESCRIPTION, CODE
+	</sql>
+	<select id="selectByPrimaryKey" parameterType="java.lang.Integer"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from JVP_ROLE
+		where ID = #{id,jdbcType=INTEGER}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+		delete from JVP_ROLE
+		where ID = #{id,jdbcType=INTEGER}
+	</delete>
+	<insert id="insert" parameterType="com.jvp.services.model.Role">
+		insert into JVP_ROLE (ID, NAME, DESCRIPTION,
+		CODE)
+		values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR},
+		#{description,jdbcType=VARCHAR},
+		#{code,jdbcType=VARCHAR})
+	</insert>
+	<insert id="insertSelective" parameterType="com.jvp.services.model.Role">
+		insert into JVP_ROLE
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				ID,
+			</if>
+			<if test="name != null">
+				NAME,
+			</if>
+			<if test="description != null">
+				DESCRIPTION,
+			</if>
+			<if test="code != null">
+				CODE,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=INTEGER},
+			</if>
+			<if test="name != null">
+				#{name,jdbcType=VARCHAR},
+			</if>
+			<if test="description != null">
+				#{description,jdbcType=VARCHAR},
+			</if>
+			<if test="code != null">
+				#{code,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="com.jvp.services.model.Role">
+		update JVP_ROLE
+		<set>
+			<if test="name != null">
+				NAME = #{name,jdbcType=VARCHAR},
+			</if>
+			<if test="description != null">
+				DESCRIPTION = #{description,jdbcType=VARCHAR},
+			</if>
+			<if test="code != null">
+				CODE = #{code,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where ID = #{id,jdbcType=INTEGER}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.jvp.services.model.Role">
+		update JVP_ROLE
+		set NAME = #{name,jdbcType=VARCHAR},
+		DESCRIPTION = #{description,jdbcType=VARCHAR},
+		CODE = #{code,jdbcType=VARCHAR}
+		where ID = #{id,jdbcType=INTEGER}
+	</update>
+
+	<select id="selectRoleListByUid" parameterType="java.lang.Integer"
+		resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from JVP_ROLE TA inner join (select RID from JVP_USER_ROLE where
+		UID=#{uid}) TB
+		where TA.ID=TB.RID
+	</select>
+	
+	<select id="selectPageListByPages" parameterType="com.jvp.core.model.Page" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from JVP_ROLE
+		limit ${(page-1)*size},${size} 
+	</select>
+
+	<select id="selectRowByPages" parameterType="com.jvp.core.model.Page" resultType="java.lang.Integer">
+		select
+		COUNT(*)
+		from JVP_ROLE
+	</select>
+</mapper>
